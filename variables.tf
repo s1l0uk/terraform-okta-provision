@@ -1,9 +1,19 @@
-output "groups" {
-  description = "List of created Okta groups."
-  value       = okta_group.groups
+variable "okta_org_name" {
+  description = "The name of the Okta organization."
+  type        = string
 }
 
-output "applications" {
-  description = "List of created Okta applications."
-  value       = okta_app_oauth.applications
+variable "okta_api_token" {
+  description = "API token for Okta."
+  type        = string
+}
+
+variable "groups_yaml" {
+  description = "Path to the YAML file describing groups."
+  type        = string
+}
+
+variable "apps_yaml" {
+  description = "Path to the YAML file describing applications."
+  type        = string
 }

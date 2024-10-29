@@ -1,19 +1,27 @@
-variable "okta_org_name" {
-  description = "The name of the Okta organization."
-  type        = string
+provider "okta" {
+  org_name = var.okta_org_name
+  api_token = var.okta_api_token
 }
 
-variable "okta_api_token" {
-  description = "API token for Okta."
-  type        = string
+resource "okta_group" "groups" {
+  for_each = yamldecode(file(var.groups_yaml))
+
+  name        = each.value.name
+  description = each.value.description
 }
 
-variable "groups_yaml" {
-  description = "Path to the YAML file describing groups."
-  type        = string
+resource "okta_app_oauth" "applications" {
+  for_each = yamldecode(file(var.apps_yaml))
+
+  label        = each.value.label
+  sign_on_mode = each.value.sign_on_mode
+  # additional options based on Okta API
 }
 
-variable "apps_yaml" {
-  description = "Path to the YAML file describing applications."
-  type        = string
+output "group_ids" {
+  value = okta_group.groups[*].id
+}
+
+output "app_ids" {
+  value = okta_app_oauth.applications[*].id
 }

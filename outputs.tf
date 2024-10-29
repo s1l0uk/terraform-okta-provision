@@ -1,9 +1,9 @@
-groups:
-  - name: "Admins"
-    description: "Group of administrators"
-  - name: "Users"
-    description: "Group of standard users"
+output "groups" {
+  description = "List of created Okta groups."
+  value       = okta_group.groups
+}
 
-applications:
-  - label: "Sample App"
-    sign_on_mode: "OPENID_CONNECT"
+output "applications" {
+  description = "List of created Okta applications."
+  value       = okta_app_oauth.applications
+}

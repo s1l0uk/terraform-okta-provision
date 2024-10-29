@@ -1,27 +1,26 @@
-provider "okta" {
-  org_name = var.okta_org_name
-  api_token = var.okta_api_token
-}
+# Overview
 
-resource "okta_group" "groups" {
-  for_each = yamldecode(file(var.groups_yaml))
+This Terraform module creates an Okta organization based on input YAML files that describe groups and applications. The module aims to be lightweight while exposing a variety of options available through the Okta API.
 
-  name = each.value.name
-  description = each.value.description
-}
+## Structure
 
-resource "okta_app_oauth" "applications" {
-  for_each = yamldecode(file(var.apps_yaml))
+- **main.tf**: The primary Terraform configuration file.
+- **variables.tf**: Variable definitions for the module.
+- **outputs.tf**: Outputs from the module.
+- **data.yaml**: Example YAML file for input data.
+- **terraform-docs.yaml**: Configuration for terraform-docs to keep README.md updated.
+- **tests/**: Directory containing test files.
 
-  label = each.value.label
-  sign_on_mode = each.value.sign_on_mode
-  # additional options based on Okta API
-}
+## Usage
 
-output "group_ids" {
-  value = okta_group.groups[*].id
-}
+1. Prepare your YAML file (e.g., `data.yaml`) that outlines your groups and applications.
+2. Update your Terraform variables if necessary in `variables.tf`.
+3. Run `terraform init`, `terraform plan`, and `terraform apply` to create the resources in Okta.
 
-output "app_ids" {
-  value = okta_app_oauth.applications[*].id
-}
+## Inputs
+
+Refer to `variables.tf` for a comprehensive list of inputs.
+
+## Outputs
+
+Refer to `outputs.tf` for available outputs from the module.
