@@ -1,0 +1,4 @@
+# terraform-docs configuration
+formatter: markdown
+output-file: README.md
+section: header
